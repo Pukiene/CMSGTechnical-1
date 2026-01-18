@@ -18,7 +18,7 @@ o	Group menu items by category.
 o	Display categories in a fixed order: Starter → Main → Dessert.
 o	Sort items within each category by price (ascending).
 
-Why?
+Why was changed?
 
 •	Required by feature ticket: “Menu items need a category, and this needs to be reflected in the UI.”
 •	Fixed bug ticket: “The menu items aren't displayed in price order.”
@@ -32,7 +32,7 @@ What changed
 o	Item name before price on the same row.
 o	Proper currency formatting using £ and numeric formatting.
 
-Why
+Why was changed?
 
 •	Fixed bug ticket: “The basket doesn't show £.”
 •	Fixed UI issue where item names were not visible.
@@ -43,7 +43,7 @@ What changed
 
 •	Added missing Description for Chocolate Cake in SeedDataHelper.SeedMenu.
 
-Why
+Why was changed?
 
 •	Fixed bug ticket: “Chocolate Cake's description isn't showing.”
 •	Ensures all menu items have consistent descriptive content.
@@ -57,7 +57,7 @@ What changed
 o	Group identical menu items by Id.
 o	Increment Quantity instead of adding duplicate rows.
 
-Why
+Why was changed?
 
 Required by feature ticket: “The basket needs to group the items together using a quantity display.”
 Fixed bug ticket: “The basket total doesn't add up correctly.”
@@ -71,7 +71,7 @@ What changed
 •	Added a fixed £2.00 delivery fee to the basket total calculation.
 •	Displayed delivery fee and total separately in BasketDisplay.razor.
 
-Why
+Why was changed?
 
 •	Required by feature ticket: “The restaurant always adds £2 as a delivery fee.”
 •	Improves transparency and pricing accuracy.
@@ -86,8 +86,7 @@ What changed
 •	Implemented JavaScript storage event listener to detect cross-tab updates.
 •	Reloaded basket state when another tab modifies it.
 
-
-Why
+Why was changed?
 
 •	Required by feature ticket: “The basket needs to persist between page loads.”
 •	Fixed bug ticket: “When I add something to my basket on one tab, it doesn't update in another.”
@@ -103,7 +102,7 @@ o	MenuItemExtensions.ToDto
 o	BasketExtensions.ToDto
 •	Ensured tests execute real production code paths.
 
-Why
+Why was changed?
 
 Fixed issue: “Code coverage currently sits at 0%.”
 Establishes a foundation for measurable coverage.
@@ -119,7 +118,7 @@ What changed
 •	Database retained only for catalogue and domain entities.
 •	Ensured JavaScript interop is executed only in OnAfterRenderAsync.
 
-Why
+Why was changed?
 
 •	Prevents server-side lifecycle issues with JS interop.
 •	Simplifies basket logic and avoids unnecessary database coupling.
