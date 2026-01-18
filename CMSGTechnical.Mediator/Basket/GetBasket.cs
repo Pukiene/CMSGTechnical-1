@@ -24,7 +24,18 @@ namespace CMSGTechnical.Mediator.Basket
         public async Task<BasketDto> Handle(GetBasket request, CancellationToken cancellationToken)
         {
             var r = await Baskets.Get(request.Id, cancellationToken);
+            if (r is null)
+            {
+                // simplest behaviour for now
+                return new BasketDto
+                {
+                    Id = request.Id,
+                    MenuItems = new List<MenuItemDto>()
+                };
+            }
+
             return r.ToDto();
+
         }
     }
 }

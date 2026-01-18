@@ -17,6 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CMSGTechnical.Domain\CMSGTechnical.Domain.csproj" />
+    <ProjectReference Include="..\CMSGTechnical.Mediator\CMSGTechnical.Mediator.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 

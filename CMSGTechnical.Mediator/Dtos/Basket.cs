@@ -1,4 +1,6 @@
-﻿using CMSGTechnical.Domain.Interfaces;
+﻿// Basket.cs
+
+using CMSGTechnical.Domain.Interfaces;
 using CMSGTechnical.Domain.Models;
 
 namespace CMSGTechnical.Mediator.Dtos

@@ -1,10 +1,13 @@
 ﻿@using CMSGTechnical.Domain.Models
 @using CMSGTechnical.Mediator.Dtos
 
-<div class="mt-2 mb-2 d-flex justify-content-between">
+<div class="menu-item-row d-flex justify-content-between align-items-start p-3 mb-2 border rounded">
+
     <div> 
+   
         <div>
-            <strong>@Item.Name (<strong>£@Item.Price</strong>)</strong>
+            <strong>@Item.Name @($"£{Item.Price:0.00}")</strong>
+
         </div>
 
         @if (!string.IsNullOrWhiteSpace(Item.Description))

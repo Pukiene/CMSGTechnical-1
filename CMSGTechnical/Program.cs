@@ -17,6 +17,9 @@ builder.Services.AddDbContextFactory<ApplicationDbContext>(optionsBuilder =>
     optionsBuilder.UseInMemoryDatabase(Guid.NewGuid().ToString());
 });
 
+builder.Services.AddScoped<CMSGTechnical.Code.BasketStorage>();
+// Registers BasketStorage as a scoped service.
+
 
 builder.Services.AddScoped(typeof(IRepo<>), typeof(Repo<>));
 builder.Services.AddMediatR(configuration =>
@@ -54,3 +57,5 @@ app.MapRazorComponents<App>()
     ;
 
 app.Run();
+
+

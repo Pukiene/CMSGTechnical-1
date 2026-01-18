@@ -11,11 +11,13 @@ namespace CMSGTechnical.Domain.Models
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
         public decimal Price { get; set; }
 
         public int Order { get; set; } = 0;
+
+        public string Category { get; set; } = "Main";
 
         public ICollection<MenuItem> ChildItems { get; set; } = new List<MenuItem>();
     }

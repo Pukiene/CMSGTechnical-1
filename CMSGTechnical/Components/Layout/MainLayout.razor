@@ -1,18 +1,31 @@
 ﻿@using CMSGTechnical.Code
 @using CMSGTechnical.Components.Shared
-@using CMSGTechnical.Domain.Models
 @using CMSGTechnical.Mediator.Basket
 @using MediatR
 @inherits LayoutComponentBase
+@using CMSGTechnical.Mediator.Dtos
+
 
 <div class="page">
+    @* Backdrop only shown when drawer is open on mobile *@
+    @if (_sidebarOpen)
+    {
+        <div class="sidebar-backdrop" @onclick="CloseSidebar"></div>
+    }
+
     <CascadingValue TValue="BasketService" Value="@BasketService">
-        <div class="sidebar">
-            <NavMenu/>
+        @* Add "open" class when drawer is open *@
+        <div class="sidebar @(_sidebarOpen ? "open" : "")">
+            <NavMenu />
         </div>
 
         <main>
-            <div class="top-row px-4">
+            <div class="top-row px-4 d-flex align-items-center justify-content-between">
+                @* Mobile button appears only under 768px due to CSS *@
+                <button type="button" class="mobile-basket-btn btn btn-primary" @onclick="ToggleSidebar">
+                    Basket
+                </button>
+
                 <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
             </div>
 
@@ -29,18 +42,58 @@
     <a class="dismiss">🗙</a>
 </div>
 
-
 @code
 {
-    private BasketService BasketService { get; set; }
+    private BasketService BasketService { get; set; } = default!;
+
+    private bool _sidebarOpen;
+    private bool _loaded;
+    private List<BasketLinePersist> _persisted = new();
 
     [Inject] private IMediator Mediator { get; set; } = default!;
+    [Inject] private BasketStorage Storage { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
+        // Server side work only, JS interop not allowed here
         var basket = await Mediator.Send(new GetBasket(1));
-        BasketService = new BasketService(basket);
+        BasketService = new BasketService(basket, Storage);
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender || _loaded) return;
+        _loaded = true;
 
+        // JS interop allowed here
+        _persisted = await Storage.LoadAsync();
+
+        var menu = (await Mediator.Send(new CMSGTechnical.Mediator.Menu.GetMenuItems())).ToList();
+
+        BasketService.Basket.MenuItems.Clear();
+
+        foreach (var line in _persisted)
+        {
+            var catalogItem = menu.FirstOrDefault(x => x.Id == line.Id);
+            if (catalogItem is null) continue;
+
+            BasketService.Basket.MenuItems.Add(new MenuItemDto
+
+            {
+                Id = catalogItem.Id,
+                Name = catalogItem.Name,
+                Description = catalogItem.Description,
+                Price = catalogItem.Price,
+                Order = catalogItem.Order,
+                Quantity = line.Quantity,
+                ChildItems = catalogItem.ChildItems
+            });
+        }
+
+        StateHasChanged();
+    }
+
+    private void ToggleSidebar() => _sidebarOpen = !_sidebarOpen;
+
+    private void CloseSidebar() => _sidebarOpen = false;
 }
